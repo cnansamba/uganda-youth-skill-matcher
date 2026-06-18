@@ -225,24 +225,36 @@ with col_a:
 
 with col_b:
     st.subheader("Youth Distribution + Skill Hotspots")
+    
+    # Make sure these exist
+    division_coords = {
+        'Makindye': [0.2765, 32.5880],
+        'Rubaga': [0.3163, 32.5503], 
+        'Kawempe': [0.3871, 32.5643],
+        'Central': [0.3156, 32.5811],
+        'Nakawa': [0.3329, 32.6256]
+    }
+    
     m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
-    # Only plot the selected division
-div_count = len(filtered_df)
-folium.CircleMarker(
-    location=division_coords[selected_division], 
-    radius=div_count/2,  # Made radius bigger so you can see it
-    popup=f"{selected_division}: {div_count} youth", 
-    color='crimson', 
-    fill=True,
-    fill_color='crimson'
-).add_to(m)
-if selected_division in SKILL_HOTSPOTS:
-    folium.Marker(
+    
+    div_count = len(filtered_df)
+    folium.CircleMarker(
         location=division_coords[selected_division],
-        popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
-        icon=folium.Icon(color='green', icon='star')
+        radius=div_count/2,
+        popup=f"{selected_division}: {div_count} youth",
+        color='crimson',
+        fill=True,
+        fill_color='crimson'
     ).add_to(m)
-st_folium(m, width=700, height=400)
+    
+    if selected_division in SKILL_HOTSPOTS:
+        folium.Marker(
+            location=division_coords[selected_division],
+            popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
+            icon=folium.Icon(color='green', icon='star')
+        ).add_to(m)
+    
+    st_folium(m, width=700, height=400)
 
 # === 5. SKILL MATCHER INPUTS - 6 SECTORS ===
 st.markdown("---")
