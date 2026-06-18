@@ -243,6 +243,7 @@ with col_b:
     folium.Marker(
         location=division_coords[selected_division],  # line 242
     folium.CircleMarker(
+        
         location=division_coords[selected_division],
         radius=div_count/2,
         popup=f"{selected_division}: {div_count} youth",
@@ -253,6 +254,7 @@ with col_b:
     
     if selected_division in SKILL_HOTSPOTS:
         folium.Marker(
+            
             location=division_coords[selected_division],
             popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
             icon=folium.Icon(color='green', icon='star')
