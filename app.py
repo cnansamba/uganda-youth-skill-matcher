@@ -226,16 +226,20 @@ with col_a:
 with col_b:
     st.subheader("Youth Distribution + Skill Hotspots")
     m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
-    for div, coords in division_coords.items():
-        div_count = len(filtered_df[filtered_df['division'] == div])
-        folium.CircleMarker(
-            location=coords, radius=div_count/10,
-            popup=f"{div}: {div_count} youth", color='crimson', fill=True
-        ).add_to(m)
-        if div in SKILL_HOTSPOTS:
-            folium.Marker(
-                location=coords,
-                popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[div]['Boom Skill']}<br>{SKILL_HOTSPOTS[div]['Reason']}",
+    # Only plot the selected division
+div_count = len(filtered_df)
+folium.CircleMarker(
+    location=division_coords[selected_division], 
+    radius=div_count/2,  # Made radius bigger so you can see it
+    popup=f"{selected_division}: {div_count} youth", 
+    color='crimson', 
+    fill=True,
+    fill_color='crimson'
+).add_to(m)
+        if selected_division in SKILL_HOTSPOTS:
+        folium.Marker(
+            location=division_coords[selected_division],
+            popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
                 icon=folium.Icon(color='green', icon='star')
             ).add_to(m)
     st_folium(m, width=700, height=400)
