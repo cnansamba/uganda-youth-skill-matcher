@@ -187,17 +187,25 @@ OCCUPATION_PRIMARY_SKILL = {
     "Catering & Food Safety": "tech", "Agro-Processing": "tech"
 }
 
+
 # === 4. DASHBOARD SECTION ===
 st.header("📊 Kampala Youth Skills Dashboard")
 
-col1, col2, col3 = st.columns(3)
-col1.metric("Total Youth", len(df))
-col2.metric("Unemployment Rate", f"{(sum(df['employment_status'] == 'Unemployed') / len(df) * 100):.1f}%")
-col3.metric("Avg Digital Skills", f"{df['digital_skills_score'].mean():.1f}/10")
+# === 4. DASHBOARD SECTION ===
+st.header("📊 Kampala Youth Skills Dashboard")
 
+# MOVE FILTER UP FIRST
 st.subheader("Filter by Division")
 selected_division_filter = st.selectbox("Choose division", df['division'].unique(), key="div_filter")
 filtered_df = df[df['division'] == selected_division_filter]
+
+# NOW CALCULATE KPIs FROM FILTERED_DF
+col1, col2, col3 = st.columns(3)
+col1.metric("Total Youth", len(filtered_df))
+col2.metric("Unemployment Rate", f"{(filtered_df['employment_status'] == 'Unemployed').mean() * 100:.1f}%")
+col3.metric("Avg Digital Skills", f"{filtered_df['digital_skills_score'].mean():.1f}/10")
+
+# Then show the table
 st.dataframe(filtered_df, use_container_width=True)
 
 col_a, col_b = st.columns(2)
