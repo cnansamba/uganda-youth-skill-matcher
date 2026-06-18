@@ -207,6 +207,7 @@ col3.metric("Avg Digital Skills", f"{filtered_df['digital_skills_score'].mean():
 
 # Then show the table
 st.dataframe(filtered_df, use_container_width=True)
+st.divider()
 
 col_a, col_b = st.columns(2)
 with col_a:
@@ -224,7 +225,7 @@ with col_b:
     st.subheader("Youth Distribution + Skill Hotspots")
     m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
     for div, coords in division_coords.items():
-        div_count = len(df[df['division'] == div])
+        div_count = len(filtered_df[filtered_df['division'] == div])
         folium.CircleMarker(
             location=coords, radius=div_count/10,
             popup=f"{div}: {div_count} youth", color='crimson', fill=True
