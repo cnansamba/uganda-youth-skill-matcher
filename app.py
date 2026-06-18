@@ -206,7 +206,9 @@ col2.metric("Unemployment Rate", f"{(filtered_df['employment_status'] == 'Unempl
 col3.metric("Avg Digital Skills", f"{filtered_df['digital_skills_score'].mean():.1f}/10")
 
 # Then show the table
-st.dataframe(filtered_df, use_container_width=True)
+with st.expander("View Filtered Youth Data Table", expanded=False):
+    st.dataframe(filtered_df, use_container_width=True, height=300)
+    
 st.divider()
 
 col_a, col_b = st.columns(2)
