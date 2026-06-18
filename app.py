@@ -238,6 +238,10 @@ with col_b:
     m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
     
     div_count = len(filtered_df)
+    st.write("Debug - selected_division:", selected_division) 
+    st.write("Debug - division_coords keys:", list(division_coords.keys()))
+    folium.Marker(
+        location=division_coords[selected_division],  # line 242
     folium.CircleMarker(
         location=division_coords[selected_division],
         radius=div_count/2,
