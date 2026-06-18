@@ -236,13 +236,13 @@ folium.CircleMarker(
     fill=True,
     fill_color='crimson'
 ).add_to(m)
-        if selected_division in SKILL_HOTSPOTS:
-        folium.Marker(
-            location=division_coords[selected_division],
-            popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
-                icon=folium.Icon(color='green', icon='star')
-            ).add_to(m)
-    st_folium(m, width=700, height=400)
+if selected_division in SKILL_HOTSPOTS:
+    folium.Marker(
+        location=division_coords[selected_division],
+        popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
+        icon=folium.Icon(color='green', icon='star')
+    ).add_to(m)
+st_folium(m, width=700, height=400)
 
 # === 5. SKILL MATCHER INPUTS - 6 SECTORS ===
 st.markdown("---")
