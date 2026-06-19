@@ -460,3 +460,44 @@ with col3:
                     st.write("2. **Small marketing:** Printed flyers + airtime for customer calls.")
     else:
         st.info("Select a Target Occupation to see skill-matching, market insights, and financial projections.")
+# 7. EXPORT SECTION FOR PROF. KYEYUNE
+st.markdown("---")
+st.header("Export Report")
+
+col_dl1, col_dl2 = st.columns(2)
+
+with col_dl1:
+    st.subheader("Download Division Data")
+    csv_data = filtered_df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="📥 Download CSV Data",
+        data=csv_data,
+        file_name=f"{selected_division}_youth_data.csv",
+        mime="text/csv"
+    )
+
+with col_dl2:
+    st.subheader("Download Summary Report")
+    # Create summary text
+    unemployment_pct = round((filtered_df['Employment_Status'] == 'Unemployed').mean() * 100, 1) if not filtered_df.empty else 0
+    top_skill = filtered_df['Skill'].mode()[0] if not filtered_df.empty else "N/A"
+    viability_score = round((1 - (filtered_df['Employment_Status'] == 'Unemployed').mean()) * 100, 1) if not filtered_df.empty else 0
+
+    summary_text = f"""Uganda Youth Skill Matcher Report
+Division: {selected_division}
+Total Youth: {len(filtered_df)}
+Unemployment Rate: {unemployment_pct}%
+Top Skill: {top_skill}
+Viability Score: {viability_score}/100
+
+Generated for Prof. Kyeyune
+"""
+
+    st.download_button(
+        label="📄 Download TXT Summary",
+        data=summary_text,
+        file_name=f"{selected_division}_summary.txt",
+        mime="text/plain"
+    )
+
+st.caption("Select a division from the sidebar to update reports before downloading")
