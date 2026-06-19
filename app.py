@@ -502,3 +502,5 @@ Generated for Prof. Kyeyune
     )
 
 st.caption("Select a division from the filter above to update reports before downloading")
+st.warning("**Prototype Notice**: This dashboard uses simulated data for demonstration purposes only. It is based on UBOS 2025 statistics and is not from real user surveys. Results should not be used for actual loan, funding, or policy decisions.")
+
