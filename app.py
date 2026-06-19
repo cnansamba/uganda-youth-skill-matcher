@@ -472,21 +472,23 @@ with col_dl1:
     st.download_button(
         label="📥 Download CSV Data",
         data=csv_data,
-        file_name=f"{division}_youth_data.csv",
+        file_name=f"{selected_division_filter}_youth_data.csv",
         mime="text/csv"
     )
 
 with col_dl2:
     st.subheader("Download Summary Report")
-    unemployment_pct = round((filtered_df['Employment_Status'] == 'Unemployed').mean() * 100, 1) if not filtered_df.empty else 0
-    top_skill = filtered_df['Skill'].mode()[0] if not filtered_df.empty else "N/A"
-    viability_score = round((1 - (filtered_df['Employment_Status'] == 'Unemployed').mean()) * 100, 1) if not filtered_df.empty else 0
+    
+    # Using your actual column names from line 205-206
+    unemployment_pct = round((filtered_df['employment_status'] == 'Unemployed').mean() * 100, 1) if not filtered_df.empty else 0
+    avg_digital_skill = round(filtered_df['digital_skills_score'].mean(), 1) if not filtered_df.empty else 0
+    viability_score = round((1 - (filtered_df['employment_status'] == 'Unemployed').mean()) * 100, 1) if not filtered_df.empty else 0
 
     summary_text = f"""Uganda Youth Skill Matcher Report
-Division: {division}
+Division: {selected_division_filter}
 Total Youth: {len(filtered_df)}
 Unemployment Rate: {unemployment_pct}%
-Top Skill: {top_skill}
+Avg Digital Skills Score: {avg_digital_skill}/10
 Viability Score: {viability_score}/100
 
 Generated for Prof. Kyeyune
@@ -495,8 +497,8 @@ Generated for Prof. Kyeyune
     st.download_button(
         label="📄 Download TXT Summary",
         data=summary_text,
-        file_name=f"{division}_summary.txt",
+        file_name=f"{selected_division_filter}_summary.txt",
         mime="text/plain"
     )
 
-st.caption("Select a division from the sidebar to update reports before downloading")
+st.caption("Select a division from the filter above to update reports before downloading")
