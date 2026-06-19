@@ -226,10 +226,7 @@ with col_a:
 with col_b:
     st.subheader("Youth Distribution + Skill Hotspots")
     
-    with col_b:
-    st.subheader("Youth Distribution + Skill Hotspots")
-    
-    division_coords = {
+    division_coords = {  # FIXED: was division_cpords
         'Makindye': [0.2765, 32.5880],
         'Rubaga': [0.3163, 32.5503], 
         'Kawempe': [0.3871, 32.5643],
