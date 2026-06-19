@@ -206,9 +206,7 @@ col2.metric("Unemployment Rate", f"{(filtered_df['employment_status'] == 'Unempl
 col3.metric("Avg Digital Skills", f"{filtered_df['digital_skills_score'].mean():.1f}/10")
 
 # Then show the table
-with st.expander("View Filtered Youth Data Table", expanded=False):
-    st.dataframe(filtered_df, use_container_width=True, height=300)
-    
+st.dataframe(filtered_df, use_container_width=True)
 st.divider()
 
 col_a, col_b = st.columns(2)
@@ -224,32 +222,22 @@ with col_a:
     st.plotly_chart(fig, use_container_width=True)
 
 with col_b:
-    st.subheader("Youth Distribution")
-    
-    import folium
-    from streamlit_folium import st_folium
-    
-    division_coords = {
-        'Makindye': [0.2765, 32.5880],
-        'Rubaga': [0.3163, 32.5503], 
-        'Kawempe': [0.3871, 32.5643],
-        'Central': [0.3156, 32.5811],
-        'Nakawa': [0.3329, 32.6256]
-    }
-    
+    st.subheader("Youth Distribution + Skill Hotspots")
     m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
-    
-    folium.CircleMarker(
-        location=division_coords[selected_division],
-        radius=max(5, len(filtered_df)/2),
-        popup=f"{selected_division}: {len(filtered_df)} youth",
-        color='crimson',
-        fill=True,
-        fill_color='crimson'
-    ).add_to(m)
-    
+    for div, coords in division_coords.items():
+        div_count = len(filtered_df[filtered_df['division'] == div])
+        folium.CircleMarker(
+            location=coords, radius=div_count/10,
+            popup=f"{div}: {div_count} youth", color='crimson', fill=True
+        ).add_to(m)
+        if div in SKILL_HOTSPOTS:
+            folium.Marker(
+                location=coords,
+                popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[div]['Boom Skill']}<br>{SKILL_HOTSPOTS[div]['Reason']}",
+                icon=folium.Icon(color='green', icon='star')
+            ).add_to(m)
     st_folium(m, width=700, height=400)
-    
+
 # === 5. SKILL MATCHER INPUTS - 6 SECTORS ===
 st.markdown("---")
 st.header("🎯 Individual Skill Matcher")
