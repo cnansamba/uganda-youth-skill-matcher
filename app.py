@@ -472,19 +472,18 @@ with col_dl1:
     st.download_button(
         label="📥 Download CSV Data",
         data=csv_data,
-        file_name=f"{selected_division}_youth_data.csv",
+        file_name=f"{division}_youth_data.csv",
         mime="text/csv"
     )
 
 with col_dl2:
     st.subheader("Download Summary Report")
-    # Create summary text
     unemployment_pct = round((filtered_df['Employment_Status'] == 'Unemployed').mean() * 100, 1) if not filtered_df.empty else 0
     top_skill = filtered_df['Skill'].mode()[0] if not filtered_df.empty else "N/A"
     viability_score = round((1 - (filtered_df['Employment_Status'] == 'Unemployed').mean()) * 100, 1) if not filtered_df.empty else 0
 
     summary_text = f"""Uganda Youth Skill Matcher Report
-Division: {selected_division}
+Division: {division}
 Total Youth: {len(filtered_df)}
 Unemployment Rate: {unemployment_pct}%
 Top Skill: {top_skill}
@@ -496,7 +495,7 @@ Generated for Prof. Kyeyune
     st.download_button(
         label="📄 Download TXT Summary",
         data=summary_text,
-        file_name=f"{selected_division}_summary.txt",
+        file_name=f"{division}_summary.txt",
         mime="text/plain"
     )
 
