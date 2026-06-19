@@ -224,17 +224,11 @@ with col_a:
     st.plotly_chart(fig, use_container_width=True)
 
 with col_b:
-    st.subheader("Youth Distribution + Skill Hotspots")
+    st.subheader("Youth Distribution")
     
-    # 1. CHECK: Do these exist? If not, error will happen here instead of later
-    st.write("Debug - selected_division:", selected_division)
-    st.write("Debug - filtered_df rows:", len(filtered_df))
-    
-    # 2. Imports - put these at TOP of your file, but adding here to be safe
     import folium
     from streamlit_folium import st_folium
     
-    # 3. Define everything inside col_b so no scope issues
     division_coords = {
         'Makindye': [0.2765, 32.5880],
         'Rubaga': [0.3163, 32.5503], 
@@ -243,37 +237,19 @@ with col_b:
         'Nakawa': [0.3329, 32.6256]
     }
     
-    SKILL_HOTSPOTS = {
-        'Makindye': {'Boom Skill': 'Digital Marketing', 'Reason': 'High youth + high unemployment'},
-        'Kawempe': {'Boom Skill': 'Carpentry', 'Reason': 'Construction demand'},
-        'Rubaga': {'Boom Skill': 'Tailoring', 'Reason': 'Textile market proximity'}
-    }
+    m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
     
-    # 4. Only run map if selected_division is valid
-    if selected_division in division_coords:
-        m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
-        
-        div_count = len(filtered_df)
-        folium.CircleMarker(
-            location=division_coords[selected_division],
-            radius=max(5, div_count/2),  # max(5, ...) prevents radius=0
-            popup=f"{selected_division}: {div_count} youth",
-            color='crimson',
-            fill=True,
-            fill_color='crimson'
-        ).add_to(m)
-        
-        if selected_division in SKILL_HOTSPOTS:
-            folium.Marker(
-                location=division_coords[selected_division],
-                popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
-                icon=folium.Icon(color='green', icon='star')
-            ).add_to(m)
-        
-        st_folium(m, width=700, height=400)
-    else:
-        st.error(f"Division '{selected_division}' not found in coords. Check dropdown values.")
-        
+    folium.CircleMarker(
+        location=division_coords[selected_division],
+        radius=max(5, len(filtered_df)/2),
+        popup=f"{selected_division}: {len(filtered_df)} youth",
+        color='crimson',
+        fill=True,
+        fill_color='crimson'
+    ).add_to(m)
+    
+    st_folium(m, width=700, height=400)
+    
 # === 5. SKILL MATCHER INPUTS - 6 SECTORS ===
 st.markdown("---")
 st.header("🎯 Individual Skill Matcher")
