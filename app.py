@@ -226,7 +226,9 @@ with col_a:
 with col_b:
     st.subheader("Youth Distribution + Skill Hotspots")
     
-    # Make sure these exist
+    with col_b:
+    st.subheader("Youth Distribution + Skill Hotspots")
+    
     division_coords = {
         'Makindye': [0.2765, 32.5880],
         'Rubaga': [0.3163, 32.5503], 
@@ -235,15 +237,16 @@ with col_b:
         'Nakawa': [0.3329, 32.6256]
     }
     
+    SKILL_HOTSPOTS = {
+        'Makindye': {'Boom Skill': 'Digital Marketing', 'Reason': 'High youth + high unemployment'},
+        'Kawempe': {'Boom Skill': 'Carpentry', 'Reason': 'Construction demand'},
+        'Rubaga': {'Boom Skill': 'Tailoring', 'Reason': 'Textile market proximity'}
+    }
+    
     m = folium.Map(location=[0.3476, 32.5825], zoom_start=12)
     
     div_count = len(filtered_df)
-    st.write("Debug - selected_division:", selected_division) 
-    st.write("Debug - division_coords keys:", list(division_coords.keys()))
-    folium.Marker(
-        location=division_coords[selected_division],  # line 242
     folium.CircleMarker(
-        
         location=division_coords[selected_division],
         radius=div_count/2,
         popup=f"{selected_division}: {div_count} youth",
@@ -254,14 +257,12 @@ with col_b:
     
     if selected_division in SKILL_HOTSPOTS:
         folium.Marker(
-            
             location=division_coords[selected_division],
             popup=f"<b>Hotspot:</b> {SKILL_HOTSPOTS[selected_division]['Boom Skill']}<br>{SKILL_HOTSPOTS[selected_division]['Reason']}",
             icon=folium.Icon(color='green', icon='star')
         ).add_to(m)
     
     st_folium(m, width=700, height=400)
-
 # === 5. SKILL MATCHER INPUTS - 6 SECTORS ===
 st.markdown("---")
 st.header("🎯 Individual Skill Matcher")
